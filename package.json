@@ -1,0 +1,27 @@
+{
+  "name": "kipol-test-job",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@barba/core": "^2.9.7",
+    "@heroicons/react": "^1.0.5",
+    "axios": "^0.25.0",
+    "next": "^12.0.9",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.8.0",
+    "react-loader-spinner": "^5.1.0",
+    "react-query": "^3.34.8",
+    "styled-components": "^5.3.9"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "eslint": "8.7.0",
+    "eslint-config-next": "12.0.8"
+  }
+}
