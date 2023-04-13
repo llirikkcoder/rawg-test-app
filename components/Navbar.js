@@ -11,7 +11,8 @@ const NavContainer = styled.div`
     align-items: center;
     padding: 5px 24px;
     margin-bottom: 20px;
-    & h1 {
+
+    h1 {
         color: #fff;
         font-weight: bold;
         font-size: 14px;
@@ -34,7 +35,7 @@ const Navbar = () => {
     return (
         <NavContainer>
             <Link href='/' passHref>
-                <h1>LOGO</h1>
+                <h1>GAMES</h1>
             </Link>
             {router.pathname !== '/game/[slug]' && <SearchForm />}
         </NavContainer>

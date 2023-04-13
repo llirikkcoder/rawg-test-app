@@ -38,7 +38,7 @@ const GameName = styled.h1`
     color: #d1d5db;
     font-weight: bold;
     font-size: 1.5rem;
-    paddig: 2rem 0;
+    paddig: 2rem 0 0;
 
     @media (min-width: 768px) {
         font-size: 1.875rem;
@@ -54,7 +54,6 @@ const GameDetailsHeader = styled.div`
     color: #d1d5db;
     font-weight: 300;
     padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
 
     @media (min-width: 768px) {
         font-size: 1.125rem;

@@ -19,10 +19,10 @@ export default Details
 export const getServerSideProps = async ({ params }) => {
     const clickedId = params.slug
     const { data: gameDetail } = await axios.get(
-        `https://api.rawg.io/api/games/${clickedId}?key=23096131fca44f378b2ba7d779ad1705`
+        `https://api.rawg.io/api/games/${clickedId}?key=45e1c238c7b94f64838405bc02573d2a`
     )
     const { data: screenShot } = await axios.get(
-        `https://api.rawg.io/api/games/${clickedId}/screenshots?key=23096131fca44f378b2ba7d779ad1705`
+        `https://api.rawg.io/api/games/${clickedId}/screenshots?key=45e1c238c7b94f64838405bc02573d2a`
     )
 
     return {

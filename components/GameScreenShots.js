@@ -1,28 +1,54 @@
-import Image from 'next/image'
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import styled from 'styled-components'
+import Image from 'next/image'
 
 const ScreenShotsWrapper = styled.div`
     margin-top: 2.5rem;
 `
 
-const ScreensContainer = styled.div`
-    display: flex;
-    gap: 0.5rem;
-    overflow-x: scroll;
-`
-
 const ScreenShot = styled.div`
-    width: 12rem;
     height: 9rem;
-    border-radius: 0.25rem;
-    overflow: hidden;
     flex-shrink: 0;
+    img {
+        object-fit: contain;
+        max-width: 100%;
+        max-height: 100%;
+    }
 `
 
 const GameScreenShots = ({ screenShot }) => {
+
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+    }
+
     return (
         <ScreenShotsWrapper>
-            <ScreensContainer>
+            <Slider {...settings}>
                 {screenShot?.results.map((screen) => (
                     <ScreenShot key={screen.id}>
                         <Image
@@ -30,15 +56,15 @@ const GameScreenShots = ({ screenShot }) => {
                             src={screen.image}
                             alt='image'
                             width={200}
-                            height={200}
+                            height={125}
                             layout='responsive'
-                            objectFit='cover'
+                            objectFit='contain'
                             placeholder='blur'
                             blurDataURL
                         />
                     </ScreenShot>
                 ))}
-            </ScreensContainer>
+            </Slider>
         </ScreenShotsWrapper>
     )
 }
