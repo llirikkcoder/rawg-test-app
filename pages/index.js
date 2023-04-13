@@ -74,6 +74,7 @@ const Home = () => {
     const resultsRef = useRef()
 
     const [sorting, setSorting] = useState('none')
+    const [dateSorting, setDateSorting] = useState('none')
     const [combinedData, setCombinedData] = useState(null)
 
     const fetchSearchResult = async (page = 1) => {
@@ -98,24 +99,30 @@ const Home = () => {
     const nextAvailable = queryData?.pages?.map((data) => data.data.next)[0]
 
     useEffect(() => {
-        if (sorting === 'none') {
-            setCombinedData(
-                queryData?.pages?.map((data) => data.data.results).flat()
-            )
-        } else {
-            const allData = queryData?.pages
-                ?.map((data) => data.data.results)
-                .flat()
-            const sortedData = allData.sort((a, b) => {
-                if (sorting === 'asc') {
-                    return a.rating - b.rating
-                } else {
-                    return b.rating - a.rating
-                }
-            })
-            setCombinedData(sortedData)
+        if (!queryData) return
+
+        let combinedData = queryData.pages
+            ?.map((data) => data.data.results)
+            .flat()
+
+        if (sorting === 'asc') {
+            combinedData = combinedData.sort((a, b) => a.rating - b.rating)
+        } else if (sorting === 'desc') {
+            combinedData = combinedData.sort((a, b) => b.rating - a.rating)
         }
-    }, [sorting, queryData])
+
+        if (dateSorting === 'asc') {
+            combinedData = combinedData.sort(
+                (a, b) => new Date(a.released) - new Date(b.released)
+            )
+        } else if (dateSorting === 'desc') {
+            combinedData = combinedData.sort(
+                (a, b) => new Date(b.released) - new Date(a.released)
+            )
+        }
+
+        setCombinedData(combinedData)
+    }, [queryData, sorting, dateSorting])
 
     if (status === 'loading')
         return (
@@ -134,22 +141,49 @@ const Home = () => {
             <StyledSearchContainer>
                 <div>Sort by:</div>
                 <button
-                    onClick={() => setSorting('none')}
-                    disabled={sorting === 'none'}
+                    onClick={() => {
+                        setSorting('none')
+                        setDateSorting('none')
+                    }}
+                    disabled={sorting === 'none' && dateSorting === 'none'}
                 >
                     None
                 </button>
                 <button
-                    onClick={() => setSorting('asc')}
-                    disabled={sorting === 'asc'}
+                    onClick={() => {
+                        setSorting('asc')
+                        setDateSorting('none')
+                    }}
+                    disabled={sorting === 'asc' && dateSorting === 'none'}
                 >
                     Rating (Ascending)
                 </button>
                 <button
-                    onClick={() => setSorting('desc')}
-                    disabled={sorting === 'desc'}
+                    onClick={() => {
+                        setSorting('desc')
+                        setDateSorting('none')
+                    }}
+                    disabled={sorting === 'desc' && dateSorting === 'none'}
                 >
                     Rating (Descending)
+                </button>
+                <button
+                    onClick={() => {
+                        setDateSorting('asc')
+                        setSorting('none')
+                    }}
+                    disabled={dateSorting === 'asc' && sorting === 'none'}
+                >
+                    Release Date (Ascending)
+                </button>
+                <button
+                    onClick={() => {
+                        setDateSorting('desc')
+                        setSorting('none')
+                    }}
+                    disabled={dateSorting === 'desc' && sorting === 'none'}
+                >
+                    Release Date (Descending)
                 </button>
             </StyledSearchContainer>
 
@@ -168,9 +202,6 @@ const Home = () => {
                         ariaLabel='loading'
                     />
                 ) : (
-                    // <button onClick={fetchNextPage} disabled={!nextAvailable}>
-                    //     {nextAvailable === null ? 'Nothing' : 'Load More'}
-                    // </button>
                     nextAvailable && (
                         <button
                             onClick={() => fetchNextPage()}
