@@ -4,7 +4,7 @@ import SearchForm from './SearchForm'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const NavContainer = styled.nav`
+const NavContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;

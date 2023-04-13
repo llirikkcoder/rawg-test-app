@@ -57,7 +57,13 @@ const LoadMore = styled.div`
 `
 
 const StyledSearchContainer = styled.div`
+    display: flex;
+    justify-content: center;
     padding-bottom: 2rem;
+
+    div {
+        padding-right: 1rem;
+    }
 `
 
 const LoadingContainer = styled.div`
