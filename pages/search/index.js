@@ -26,32 +26,31 @@ const StyledSearchResults = styled.div`
             justify-content: center;
         }
     }
+`
+const LoadMore = styled.div`
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3rem 0;
 
-    .load-more {
-        height: 5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 3rem 0;
+    button {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        background-color: #383838;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        transition: all 0.2s ease-in-out;
 
-        button {
-            border: none;
-            outline: none;
-            cursor: pointer;
-            background-color: #383838;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            transition: all 0.2s ease-in-out;
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
 
-            &:disabled {
-                cursor: not-allowed;
-                opacity: 0.5;
-            }
-
-            &:not(:disabled):active {
-                transform: scale(0.9);
-            }
+        &:not(:disabled):active {
+            transform: scale(0.9);
         }
     }
 `
@@ -110,7 +109,7 @@ const SearchResults = () => {
                 )}
             </div>
 
-            <div className='load-more'>
+            <LoadMore>
                 {isFetchingNextPage ? (
                     <Oval
                         height='100'
@@ -123,7 +122,7 @@ const SearchResults = () => {
                         {nextAvailable === null ? 'Nothing' : 'Load More'}
                     </button>
                 )}
-            </div>
+            </LoadMore>
         </StyledSearchResults>
     )
 }

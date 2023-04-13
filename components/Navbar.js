@@ -4,7 +4,7 @@ import SearchForm from './SearchForm'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const Nav = styled.nav`
+const NavContainer = styled.nav`
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -32,12 +32,12 @@ const Navbar = () => {
     console.log('router.pathname', router.pathname)
 
     return (
-        <Nav>
+        <NavContainer>
             <Link href='/' passHref>
                 <h1>LOGO</h1>
             </Link>
             {router.pathname !== '/game/[slug]' && <SearchForm />}
-        </Nav>
+        </NavContainer>
     )
 }
 
