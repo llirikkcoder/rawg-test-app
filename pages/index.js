@@ -92,6 +92,11 @@ const Home = () => {
 
     const [sortByRating, setSortByRating] = useState('none')
     const [sortByReleased, setSortByReleased] = useState('none')
+    // const [data, setData] = useState(null)
+
+    // const handleSetData = (newData) => {
+    //     setData(newData);
+    // };
 
     // const handleSortByRating = () => {
     //     setSortByReleased('none')
@@ -161,15 +166,18 @@ const Home = () => {
         return { data, nextPage: page + 1 }
     }
 
+    // data,
     const { data, fetchNextPage, isFetchingNextPage, status } =
         useInfiniteQuery(
             ['games', searchQuery],
             ({ pageParam = 1 }) => fetchSearchResult(pageParam),
             {
                 getNextPageParam: (lastPage, pages) => lastPage.nextPage,
+                // onSuccess: (data) => setData(data.pages),
             }
         )
     const nextAvailable = data?.pages?.map((data) => data.data.next)[0]
+    console.log('🚀 ~ file: index.js:180 ~ Home ~ data:', data)
 
     if (status === 'loading')
         return (
