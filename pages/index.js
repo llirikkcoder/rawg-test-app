@@ -102,36 +102,9 @@ const Home = () => {
     const [combinedData, setCombinedData] = useState([])
     const [platformFilters, setPlatformFilters] = useState([])
 
-    // let currentPage = 1
-
-    // const handlePlatformFilter = (selectedPlatforms) => {
-    //     setPlatformFilters(selectedPlatforms)
-    //     fetchSearchResult(currentPage, selectedPlatforms)
-    //         .then((results) => {
-    //             // Обновление состояния с новыми результатами поиска
-    //             setCombinedData(results)
-    //         })
-    //         .catch((error) => {
-    //             console.error(error)
-    //         })
-    // }
-
     const handlePlatformFilter = (selectedPlatforms) => {
         setPlatformFilters(selectedPlatforms)
-        const platformParams = selectedPlatforms.join(',')
-        router.push(`/search/platforms?platforms=${platformParams}`)
     }
-
-    // const fetchSearchResult = async (page = 1, platforms = [], search = '') => {
-    //     const platformParams = platforms
-    //         .map((id) => `platforms=${id}`)
-    //         .join('&')
-    //     const searchParam = search ? `&search=${search}` : ''
-    //     const { data } = await axios.get(
-    //         `https://api.rawg.io/api/games?key=45e1c238c7b94f64838405bc02573d2a&page=${page}&${platformParams}${searchParam}`
-    //     )
-    //     return { data, nextPage: page + 1 }
-    // }
 
     const fetchSearchResult = async (page = 1, platforms = [], search = '') => {
         const platformParams = platforms
