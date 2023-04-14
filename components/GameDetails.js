@@ -5,16 +5,22 @@ import GameScreenShots from './GameScreenShots'
 
 const GameDetailsWrapper = styled.div`
     height: 100%;
-    padding: 1.25rem;
+    max-width: 80vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0 1.25rem;
     @media (min-width: 768px) {
-        padding: 1.875rem;
+        padding: 0 1.875rem;
     }
 `
 
 const BackLink = styled.a`
     display: inline-block;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     color: white;
+    font-size: 1.4rem;
 `
 
 const CenteredWrapper = styled.div`
@@ -25,12 +31,12 @@ const CenteredWrapper = styled.div`
 
 const ImageWrapper = styled.div`
     width: 100%;
-    max-width: 70%;
     height: 100%;
     overflow: hidden;
     border-radius: 0.25rem;
     @media (min-width: 768px) {
         border-radius: 0.375rem;
+        max-width: 90%;
     }
 `
 
@@ -62,14 +68,24 @@ const GameDetailsHeader = styled.div`
     }
 `
 
-const GameDescription = styled.p`
+const GameDescription = styled.div`
     color: #c5c5c5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: start;
+    max-width: 80vw;
     font-size: 0.75rem;
     line-height: 1.25rem;
     padding-bottom: 1.25rem;
+
     @media (min-width: 768px) {
         font-size: 1rem;
         line-height: 1.5rem;
+    }
+    div {
+        width: 100%;
     }
 `
 
@@ -124,7 +140,9 @@ const GameDetails = ({ game, screenShot }) => {
                     </a>
                 </GameName>
             </GameDetailsHeader>
-            <GameDescription>{game.description_raw}</GameDescription>
+            <GameDescription>
+                <div>{game.description_raw}</div>
+            </GameDescription>
 
             <GameScreenShots screenShot={screenShot} />
         </GameDetailsWrapper>

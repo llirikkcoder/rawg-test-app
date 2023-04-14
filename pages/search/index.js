@@ -7,24 +7,17 @@ import { Oval } from 'react-loader-spinner'
 import styled from 'styled-components'
 
 const StyledSearchResults = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 0 5rem;
 
     h1 {
+        width: 100%;
+        text-align: center;
         font-size: 1.5rem;
         font-weight: 600;
         padding-bottom: 1rem;
-    }
-
-    .results-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 2rem;
-
-        @media (min-width: 768px) {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
     }
 `
 

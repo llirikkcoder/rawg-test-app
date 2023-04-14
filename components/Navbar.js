@@ -15,7 +15,7 @@ const NavContainer = styled.div`
     h1 {
         color: #fff;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 20px;
         cursor: pointer;
         padding-right: 10px;
         &:active {

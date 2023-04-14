@@ -6,7 +6,14 @@ import Image from 'next/image'
 
 const ScreenShotsWrapper = styled.div`
     margin-top: 2.5rem;
-    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 2.5rem;
+
+    .slick-dots li button:before {
+        color: white;
+    }
 `
 
 const ScreenShot = styled.div`
@@ -22,17 +29,17 @@ const ScreenShot = styled.div`
 const GameScreenShots = ({ screenShot }) => {
     const settings = {
         dots: true,
-        infinite: true,
+        infinite: false,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 1,
         slidesToScroll: 1,
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 1,
                     slidesToScroll: 1,
-                    infinite: true,
+                    infinite: false,
                     dots: true,
                 },
             },
@@ -44,6 +51,8 @@ const GameScreenShots = ({ screenShot }) => {
                 },
             },
         ],
+        style: { width: '500px' },
+        dotsClass: 'slick-dots',
     }
 
     return (
