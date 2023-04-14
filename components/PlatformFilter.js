@@ -1,13 +1,12 @@
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
-// import { useState } from 'react'
 
 const StyledPlatformFilter = styled.div`
-    margin: 20px 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    margin-bottom: 1rem;
 
     label {
         margin-right: 10px;
@@ -20,6 +19,14 @@ const StyledPlatformFilter = styled.div`
         border: 1px solid grey;
         margin-right: 10px;
         font-size: 16px;
+    }
+
+    button {
+        background-color: transparent;
+        color: white;
+        border: 1px solid white;
+        border-radius: 0.25rem;
+        margin: 0.2rem;
     }
 `
 
@@ -59,7 +66,7 @@ const PlatformFilter = ({ onFilterChange }) => {
 
     return (
         <StyledPlatformFilter>
-            <h2>Filter by platform:</h2>
+            <div>Filter by platform:</div>
             {platformOptions.map((platform) => (
                 <button
                     key={platform.id}

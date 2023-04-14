@@ -60,7 +60,7 @@ const LoadMore = styled.div`
 const StyledSearchContainer = styled.div`
     display: flex;
     justify-content: center;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
 
     div {
         padding-right: 1rem;
@@ -72,6 +72,7 @@ const StyledSearchContainer = styled.div`
         border: 1px solid white;
         border-radius: 0.25rem;
         margin: 0.2rem;
+        padding: 0.2rem 0.5rem;
     }
 
     @media (max-width: 767px) {

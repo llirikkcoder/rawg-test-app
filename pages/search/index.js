@@ -27,6 +27,7 @@ const StyledSearchResults = styled.div`
         }
     }
 `
+
 const LoadMore = styled.div`
     height: 5rem;
     display: flex;
