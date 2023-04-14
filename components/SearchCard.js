@@ -13,6 +13,10 @@ const ImageWrapper = styled.div`
     position: relative;
     width: 20rem;
     height: 170px;
+
+    @media (max-width: 768px) {
+        width: 90vw;
+    }
 `
 
 const Title = styled.h1`

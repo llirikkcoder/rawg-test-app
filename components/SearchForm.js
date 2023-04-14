@@ -26,18 +26,6 @@ const SearchInput = styled.input`
     }
 `
 
-const SearchButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    &:disabled {
-        cursor: not-allowed;
-    }
-`
-
 const ButtonWrapper = styled.button`
     display: flex;
     align-items: center;

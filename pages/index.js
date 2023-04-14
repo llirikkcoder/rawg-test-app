@@ -3,8 +3,9 @@ import { useRouter } from 'next/router'
 import { useInfiniteQuery } from 'react-query'
 import axios from 'axios'
 import { Oval } from 'react-loader-spinner'
-import SearchCard from './../components/SearchCard'
 import styled from 'styled-components'
+import SearchCard from './../components/SearchCard'
+import PlatformFilter from '../components/PlatformFilter'
 
 const StyledSearchResults = styled.div`
     padding: 0 5rem;
@@ -12,20 +13,20 @@ const StyledSearchResults = styled.div`
     h1 {
         font-size: 1.5rem;
         font-weight: 600;
-        padding-bottom: 1rem;
     }
+`
 
-    .results-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 2rem;
+const ResultsGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
 
-        @media (min-width: 768px) {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+    @media (min-width: 230px) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
+}
 `
 
 const LoadMore = styled.div`
@@ -64,6 +65,23 @@ const StyledSearchContainer = styled.div`
     div {
         padding-right: 1rem;
     }
+
+    button {
+        background-color: transparent;
+        color: white;
+        border: 1px solid white;
+        border-radius: 0.25rem;
+        margin: 0.2rem;
+    }
+
+    @media (max-width: 767px) {
+        flex-direction: column;
+        align-items: center;
+        div {
+            padding-right: 0;
+            padding-bottom: 1rem;
+        }
+    }
 `
 
 const LoadingContainer = styled.div`
@@ -81,11 +99,30 @@ const Home = () => {
 
     const [sorting, setSorting] = useState('none')
     const [dateSorting, setDateSorting] = useState('none')
-    const [combinedData, setCombinedData] = useState(null)
+    const [combinedData, setCombinedData] = useState([])
+    const [platformFilters, setPlatformFilters] = useState([])
 
-    const fetchSearchResult = async (page = 1) => {
+    let currentPage = 1
+
+    const handlePlatformFilter = (selectedPlatforms) => {
+        setPlatformFilters(selectedPlatforms)
+        fetchSearchResult(currentPage, selectedPlatforms)
+            .then((results) => {
+                // Обновление состояния с новыми результатами поиска
+                setCombinedData(results)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }
+
+    const fetchSearchResult = async (page = 1, platforms = [], search = '') => {
+        const platformParams = platforms
+            .map((id) => `platforms=${id}`)
+            .join('&')
+        const searchParam = search ? `&search=${search}` : ''
         const { data } = await axios.get(
-            `https://api.rawg.io/api/games?key=45e1c238c7b94f64838405bc02573d2a&page=${page}&search_precise=true`
+            `https://api.rawg.io/api/games?key=45e1c238c7b94f64838405bc02573d2a&page=${page}&${platformParams}${searchParam}`
         )
         return { data, nextPage: page + 1 }
     }
@@ -105,10 +142,10 @@ const Home = () => {
     const nextAvailable = queryData?.pages?.map((data) => data.data.next)[0]
 
     useEffect(() => {
-        if (!queryData) return
+        if (!queryData || !Array.isArray(queryData.pages)) return
 
         let combinedData = queryData.pages
-            ?.map((data) => data.data.results)
+            .map((data) => data.data.results)
             .flat()
 
         if (sorting === 'asc') {
@@ -193,11 +230,13 @@ const Home = () => {
                 </button>
             </StyledSearchContainer>
 
-            <div ref={resultsRef} className='results-grid'>
+            <PlatformFilter onFilterChange={handlePlatformFilter} />
+
+            <ResultsGrid ref={resultsRef}>
                 {combinedData?.map((game) => (
                     <SearchCard key={game?.id} game={game} />
                 ))}
-            </div>
+            </ResultsGrid>
 
             <LoadMore>
                 {isFetchingNextPage ? (

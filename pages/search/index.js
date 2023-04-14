@@ -62,6 +62,19 @@ const LoadingContainer = styled.div`
     justify-content: center;
 `
 
+const ResultsGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+
+    @media (min-width: 230px) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+`
+
 const SearchResults = () => {
     const router = useRouter()
     const searchQuery = router?.query.s
@@ -99,15 +112,15 @@ const SearchResults = () => {
 
     return (
         <StyledSearchResults>
-            <h1>Search Results</h1>
+            <h1>Search Results:</h1>
 
-            <div ref={resultsRef} className='results-grid'>
+            <ResultsGrid ref={resultsRef}>
                 {data?.pages?.map((data) =>
                     data?.data?.results?.map((game) => (
                         <SearchCard key={game?.id} game={game} />
                     ))
                 )}
-            </div>
+            </ResultsGrid>
 
             <LoadMore>
                 {isFetchingNextPage ? (

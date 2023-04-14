@@ -9,8 +9,8 @@ const NavContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 5px 24px;
-    margin-bottom: 20px;
+    padding: 15px 24px;
+    margin-bottom: 10px;
 
     h1 {
         color: #fff;
@@ -29,8 +29,6 @@ const NavContainer = styled.div`
 
 const Navbar = () => {
     const router = useRouter()
-
-    console.log('router.pathname', router.pathname)
 
     return (
         <NavContainer>

@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 const ScreenShotsWrapper = styled.div`
     margin-top: 2.5rem;
+    width: 90vw;
 `
 
 const ScreenShot = styled.div`
@@ -19,7 +20,6 @@ const ScreenShot = styled.div`
 `
 
 const GameScreenShots = ({ screenShot }) => {
-
     const settings = {
         dots: true,
         infinite: true,
