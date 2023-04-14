@@ -97,7 +97,7 @@ const Home = () => {
 
     const resultsRef = useRef()
 
-    const [sorting, setSorting] = useState('none')
+    const [sorting, setRatingSorting] = useState('none')
     const [dateSorting, setDateSorting] = useState('none')
     const [combinedData, setCombinedData] = useState([])
     const [platformFilters, setPlatformFilters] = useState([])
@@ -130,32 +130,6 @@ const Home = () => {
         }
     )
     const nextAvailable = queryData?.pages?.map((data) => data.data.next)[0]
-
-    // useEffect(() => {
-    //     if (!queryData || !Array.isArray(queryData.pages)) return
-
-    //     let combinedData = queryData.pages
-    //         .map((data) => data.data.results)
-    //         .flat()
-
-    //     if (sorting === 'asc') {
-    //         combinedData = combinedData.sort((a, b) => a.rating - b.rating)
-    //     } else if (sorting === 'desc') {
-    //         combinedData = combinedData.sort((a, b) => b.rating - a.rating)
-    //     }
-
-    //     if (dateSorting === 'asc') {
-    //         combinedData = combinedData.sort(
-    //             (a, b) => new Date(a.released) - new Date(b.released)
-    //         )
-    //     } else if (dateSorting === 'desc') {
-    //         combinedData = combinedData.sort(
-    //             (a, b) => new Date(b.released) - new Date(a.released)
-    //         )
-    //     }
-
-    //     setCombinedData(combinedData)
-    // }, [queryData, sorting, dateSorting])
 
     useEffect(() => {
         if (!queryData || !Array.isArray(queryData.pages)) return
@@ -209,7 +183,7 @@ const Home = () => {
                 <div>Sort by:</div>
                 <button
                     onClick={() => {
-                        setSorting('none')
+                        setRatingSorting('none')
                         setDateSorting('none')
                     }}
                     disabled={sorting === 'none' && dateSorting === 'none'}
@@ -218,7 +192,7 @@ const Home = () => {
                 </button>
                 <button
                     onClick={() => {
-                        setSorting('asc')
+                        setRatingSorting('asc')
                         setDateSorting('none')
                     }}
                     disabled={sorting === 'asc' && dateSorting === 'none'}
@@ -227,7 +201,7 @@ const Home = () => {
                 </button>
                 <button
                     onClick={() => {
-                        setSorting('desc')
+                        setRatingSorting('desc')
                         setDateSorting('none')
                     }}
                     disabled={sorting === 'desc' && dateSorting === 'none'}
@@ -237,7 +211,7 @@ const Home = () => {
                 <button
                     onClick={() => {
                         setDateSorting('asc')
-                        setSorting('none')
+                        setRatingSorting('none')
                     }}
                     disabled={dateSorting === 'asc' && sorting === 'none'}
                 >
@@ -246,7 +220,7 @@ const Home = () => {
                 <button
                     onClick={() => {
                         setDateSorting('desc')
-                        setSorting('none')
+                        setRatingSorting('none')
                     }}
                     disabled={dateSorting === 'desc' && sorting === 'none'}
                 >
