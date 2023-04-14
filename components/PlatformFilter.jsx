@@ -13,11 +13,20 @@ const StyledPlatformFilter = styled.div`
     }
 
     button {
+        cursor: pointer;
         background-color: transparent;
         color: white;
         border: 1px solid white;
         border-radius: 0.25rem;
         margin: 0.2rem;
+    }
+
+    div {
+        padding-right: 0.5rem;
+    }
+
+    .active {
+        background-color: gray;
     }
 `
 
@@ -55,6 +64,9 @@ const PlatformFilter = ({ onFilterChange }) => {
         { id: 21, name: 'Android' },
     ]
 
+    const lastSelectedPlatformId =
+        selectedPlatforms[selectedPlatforms.length - 1]
+
     return (
         <StyledPlatformFilter>
             <div>Filter by platform:</div>
@@ -63,9 +75,7 @@ const PlatformFilter = ({ onFilterChange }) => {
                     key={platform.id}
                     onClick={(e) => handlePlatformChange(e, platform.id)}
                     className={
-                        selectedPlatforms.includes(String(platform.id))
-                            ? 'active'
-                            : ''
+                        lastSelectedPlatformId == platform.id ? 'active' : ''
                     }
                 >
                     {platform.name}

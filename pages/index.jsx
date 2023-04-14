@@ -4,7 +4,7 @@ import { useInfiniteQuery } from 'react-query'
 import axios from 'axios'
 import { Oval } from 'react-loader-spinner'
 import styled from 'styled-components'
-import SearchCard from './../components/SearchCard'
+import SearchCard from '../components/SearchCard'
 import PlatformFilter from '../components/PlatformFilter'
 
 const StyledSearchResults = styled.div`
@@ -63,26 +63,24 @@ const StyledSearchContainer = styled.div`
     justify-content: center;
     padding-bottom: 1rem;
 
-    div {
-        padding-right: 1rem;
-    }
-
     button {
+        cursor: pointer;
         background-color: transparent;
         color: white;
         border: 1px solid white;
         border-radius: 0.25rem;
         margin: 0.2rem;
         padding: 0.2rem 0.5rem;
+
+        &.selected {
+            background-color: gray;
+        }
+
+        border-color: ${(props) => (props.active ? 'red' : 'white')};
     }
 
-    @media (max-width: 767px) {
-        // flex-direction: column;
-        // align-items: center;
-        div {
-            padding-right: 0;
-            // padding-bottom: 1rem;
-        }
+    div {
+        padding-right: 0.5rem;
     }
 `
 
@@ -197,6 +195,12 @@ const Home = () => {
                     disabled={
                         ratingSorting === 'none' && dateSorting === 'none'
                     }
+                    style={{
+                        backgroundColor:
+                            ratingSorting === 'none' && dateSorting === 'none'
+                                ? 'gray'
+                                : 'transparent',
+                    }}
                 >
                     None
                 </button>
@@ -206,6 +210,12 @@ const Home = () => {
                         setDateSorting('none')
                     }}
                     disabled={ratingSorting === 'asc' && dateSorting === 'none'}
+                    style={{
+                        backgroundColor:
+                            ratingSorting === 'asc' && dateSorting === 'none'
+                                ? 'gray'
+                                : 'transparent',
+                    }}
                 >
                     Rating (Ascending)
                 </button>
@@ -217,6 +227,12 @@ const Home = () => {
                     disabled={
                         ratingSorting === 'desc' && dateSorting === 'none'
                     }
+                    style={{
+                        backgroundColor:
+                            ratingSorting === 'desc' && dateSorting === 'none'
+                                ? 'gray'
+                                : 'transparent',
+                    }}
                 >
                     Rating (Descending)
                 </button>
@@ -226,6 +242,12 @@ const Home = () => {
                         setRatingSorting('none')
                     }}
                     disabled={dateSorting === 'asc' && ratingSorting === 'none'}
+                    style={{
+                        backgroundColor:
+                            dateSorting === 'asc' && ratingSorting === 'none'
+                                ? 'gray'
+                                : 'transparent',
+                    }}
                 >
                     Release Date (Ascending)
                 </button>
@@ -237,6 +259,12 @@ const Home = () => {
                     disabled={
                         dateSorting === 'desc' && ratingSorting === 'none'
                     }
+                    style={{
+                        backgroundColor:
+                            dateSorting === 'desc' && ratingSorting === 'none'
+                                ? 'gray'
+                                : 'transparent',
+                    }}
                 >
                     Release Date (Descending)
                 </button>
