@@ -5,20 +5,11 @@ const StyledPlatformFilter = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
     margin-bottom: 1rem;
 
     label {
         margin-right: 10px;
         font-weight: bold;
-    }
-
-    select {
-        padding: 5px;
-        border-radius: 5px;
-        border: 1px solid grey;
-        margin-right: 10px;
-        font-size: 16px;
     }
 
     button {

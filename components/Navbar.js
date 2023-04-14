@@ -9,8 +9,8 @@ const NavContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 15px 24px;
-    margin-bottom: 10px;
+    padding: 0 24px;
+    margin: 10px 0;
 
     h1 {
         color: #fff;

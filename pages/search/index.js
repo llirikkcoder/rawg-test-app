@@ -10,7 +10,7 @@ const StyledSearchResults = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 5rem;
+    padding: 0 1rem;
 
     h1 {
         width: 100%;
@@ -98,7 +98,7 @@ const SearchResults = () => {
                 <Oval
                     heigth='100'
                     width='100'
-                    color='grey'
+                    color='white'
                     ariaLabel='loading'
                 />
             </LoadingContainer>

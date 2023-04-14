@@ -8,7 +8,7 @@ import SearchCard from './../components/SearchCard'
 import PlatformFilter from '../components/PlatformFilter'
 
 const StyledSearchResults = styled.div`
-    padding: 0 5rem;
+    padding: 0 1rem;
 
     h1 {
         font-size: 1.5rem;
@@ -59,6 +59,7 @@ const LoadMore = styled.div`
 
 const StyledSearchContainer = styled.div`
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     padding-bottom: 1rem;
 
@@ -76,11 +77,11 @@ const StyledSearchContainer = styled.div`
     }
 
     @media (max-width: 767px) {
-        flex-direction: column;
-        align-items: center;
+        // flex-direction: column;
+        // align-items: center;
         div {
             padding-right: 0;
-            padding-bottom: 1rem;
+            // padding-bottom: 1rem;
         }
     }
 `
@@ -170,10 +171,16 @@ const Home = () => {
         return (
             <LoadingContainer>
                 <Oval
-                    heigth='100'
-                    width='100'
-                    color='grey'
-                    ariaLabel='loading'
+                    height={80}
+                    width={80}
+                    color='white'
+                    wrapperStyle={{}}
+                    wrapperClass=''
+                    visible={true}
+                    ariaLabel='oval-loading'
+                    secondaryColor='black'
+                    strokeWidth={2}
+                    strokeWidthSecondary={2}
                 />
             </LoadingContainer>
         )
