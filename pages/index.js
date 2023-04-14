@@ -97,7 +97,7 @@ const Home = () => {
 
     const resultsRef = useRef()
 
-    const [sorting, setRatingSorting] = useState('none')
+    const [ratingSorting, setRatingSorting] = useState('none')
     const [dateSorting, setDateSorting] = useState('none')
     const [combinedData, setCombinedData] = useState([])
     const [platformFilters, setPlatformFilters] = useState([])
@@ -138,9 +138,9 @@ const Home = () => {
             .map((data) => data.data.results)
             .flat()
 
-        if (sorting === 'asc') {
+        if (ratingSorting === 'asc') {
             combinedData = combinedData.sort((a, b) => a.rating - b.rating)
-        } else if (sorting === 'desc') {
+        } else if (ratingSorting === 'desc') {
             combinedData = combinedData.sort((a, b) => b.rating - a.rating)
         }
 
@@ -163,7 +163,7 @@ const Home = () => {
         }
 
         setCombinedData(combinedData)
-    }, [queryData, sorting, dateSorting, platformFilters])
+    }, [queryData, ratingSorting, dateSorting, platformFilters])
 
     if (status === 'loading')
         return (
@@ -186,7 +186,9 @@ const Home = () => {
                         setRatingSorting('none')
                         setDateSorting('none')
                     }}
-                    disabled={sorting === 'none' && dateSorting === 'none'}
+                    disabled={
+                        ratingSorting === 'none' && dateSorting === 'none'
+                    }
                 >
                     None
                 </button>
@@ -195,7 +197,7 @@ const Home = () => {
                         setRatingSorting('asc')
                         setDateSorting('none')
                     }}
-                    disabled={sorting === 'asc' && dateSorting === 'none'}
+                    disabled={ratingSorting === 'asc' && dateSorting === 'none'}
                 >
                     Rating (Ascending)
                 </button>
@@ -204,7 +206,9 @@ const Home = () => {
                         setRatingSorting('desc')
                         setDateSorting('none')
                     }}
-                    disabled={sorting === 'desc' && dateSorting === 'none'}
+                    disabled={
+                        ratingSorting === 'desc' && dateSorting === 'none'
+                    }
                 >
                     Rating (Descending)
                 </button>
@@ -213,7 +217,7 @@ const Home = () => {
                         setDateSorting('asc')
                         setRatingSorting('none')
                     }}
-                    disabled={dateSorting === 'asc' && sorting === 'none'}
+                    disabled={dateSorting === 'asc' && ratingSorting === 'none'}
                 >
                     Release Date (Ascending)
                 </button>
@@ -222,7 +226,9 @@ const Home = () => {
                         setDateSorting('desc')
                         setRatingSorting('none')
                     }}
-                    disabled={dateSorting === 'desc' && sorting === 'none'}
+                    disabled={
+                        dateSorting === 'desc' && ratingSorting === 'none'
+                    }
                 >
                     Release Date (Descending)
                 </button>
