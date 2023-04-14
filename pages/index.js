@@ -102,19 +102,36 @@ const Home = () => {
     const [combinedData, setCombinedData] = useState([])
     const [platformFilters, setPlatformFilters] = useState([])
 
-    let currentPage = 1
+    // let currentPage = 1
+
+    // const handlePlatformFilter = (selectedPlatforms) => {
+    //     setPlatformFilters(selectedPlatforms)
+    //     fetchSearchResult(currentPage, selectedPlatforms)
+    //         .then((results) => {
+    //             // Обновление состояния с новыми результатами поиска
+    //             setCombinedData(results)
+    //         })
+    //         .catch((error) => {
+    //             console.error(error)
+    //         })
+    // }
 
     const handlePlatformFilter = (selectedPlatforms) => {
         setPlatformFilters(selectedPlatforms)
-        fetchSearchResult(currentPage, selectedPlatforms)
-            .then((results) => {
-                // Обновление состояния с новыми результатами поиска
-                setCombinedData(results)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
+        const platformParams = selectedPlatforms.join(',')
+        router.push(`/search/platforms?platforms=${platformParams}`)
     }
+
+    // const fetchSearchResult = async (page = 1, platforms = [], search = '') => {
+    //     const platformParams = platforms
+    //         .map((id) => `platforms=${id}`)
+    //         .join('&')
+    //     const searchParam = search ? `&search=${search}` : ''
+    //     const { data } = await axios.get(
+    //         `https://api.rawg.io/api/games?key=45e1c238c7b94f64838405bc02573d2a&page=${page}&${platformParams}${searchParam}`
+    //     )
+    //     return { data, nextPage: page + 1 }
+    // }
 
     const fetchSearchResult = async (page = 1, platforms = [], search = '') => {
         const platformParams = platforms
@@ -141,6 +158,32 @@ const Home = () => {
     )
     const nextAvailable = queryData?.pages?.map((data) => data.data.next)[0]
 
+    // useEffect(() => {
+    //     if (!queryData || !Array.isArray(queryData.pages)) return
+
+    //     let combinedData = queryData.pages
+    //         .map((data) => data.data.results)
+    //         .flat()
+
+    //     if (sorting === 'asc') {
+    //         combinedData = combinedData.sort((a, b) => a.rating - b.rating)
+    //     } else if (sorting === 'desc') {
+    //         combinedData = combinedData.sort((a, b) => b.rating - a.rating)
+    //     }
+
+    //     if (dateSorting === 'asc') {
+    //         combinedData = combinedData.sort(
+    //             (a, b) => new Date(a.released) - new Date(b.released)
+    //         )
+    //     } else if (dateSorting === 'desc') {
+    //         combinedData = combinedData.sort(
+    //             (a, b) => new Date(b.released) - new Date(a.released)
+    //         )
+    //     }
+
+    //     setCombinedData(combinedData)
+    // }, [queryData, sorting, dateSorting])
+
     useEffect(() => {
         if (!queryData || !Array.isArray(queryData.pages)) return
 
@@ -164,8 +207,16 @@ const Home = () => {
             )
         }
 
+        if (platformFilters.length > 0) {
+            combinedData = combinedData.filter((game) =>
+                game.platforms.some((platform) =>
+                    platformFilters.includes(platform.platform.id)
+                )
+            )
+        }
+
         setCombinedData(combinedData)
-    }, [queryData, sorting, dateSorting])
+    }, [queryData, sorting, dateSorting, platformFilters])
 
     if (status === 'loading')
         return (
