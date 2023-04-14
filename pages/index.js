@@ -3,95 +3,15 @@ import { useRouter } from 'next/router'
 import { useInfiniteQuery } from 'react-query'
 import axios from 'axios'
 import { Oval } from 'react-loader-spinner'
-import styled from 'styled-components'
 import SearchCard from './../components/SearchCard'
 import PlatformFilter from '../components/PlatformFilter'
-
-const StyledSearchResults = styled.div`
-    padding: 0 1rem;
-
-    h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-`
-
-const ResultsGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem;
-
-    @media (min-width: 230px) {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-}
-`
-
-const LoadMore = styled.div`
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 3rem 0;
-
-    button {
-        border: none;
-        outline: none;
-        cursor: pointer;
-        background-color: #383838;
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
-        transition: all 0.2s ease-in-out;
-
-        &:disabled {
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        &:not(:disabled):active {
-            transform: scale(0.9);
-        }
-    }
-`
-
-const StyledSearchContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-bottom: 1rem;
-
-    div {
-        padding-right: 1rem;
-    }
-
-    button {
-        background-color: transparent;
-        color: white;
-        border: 1px solid white;
-        border-radius: 0.25rem;
-        margin: 0.2rem;
-        padding: 0.2rem 0.5rem;
-    }
-
-    @media (max-width: 767px) {
-        // flex-direction: column;
-        // align-items: center;
-        div {
-            padding-right: 0;
-            // padding-bottom: 1rem;
-        }
-    }
-`
-
-const LoadingContainer = styled.div`
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`
+import {
+    StyledSearchResults,
+    ResultsGrid,
+    LoadMore,
+    StyledSearchContainer,
+    LoadingContainer,
+} from '../styles'
 
 const Home = () => {
     const router = useRouter()
