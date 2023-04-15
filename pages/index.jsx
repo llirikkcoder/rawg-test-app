@@ -6,6 +6,7 @@ import { Oval } from 'react-loader-spinner'
 import styled from 'styled-components'
 import SearchCard from '../components/SearchCard'
 import PlatformFilter from '../components/PlatformFilter'
+import { useInView } from 'react-intersection-observer'
 
 const StyledSearchResults = styled.div`
     padding: 0 1rem;
@@ -96,6 +97,7 @@ const Home = () => {
     const searchQuery = router?.query.s
 
     const resultsRef = useRef()
+    const { ref, inView } = useInView({ threshold: 0 })
 
     const [ratingSorting, setRatingSorting] = useState('none')
     const [dateSorting, setDateSorting] = useState('none')
@@ -130,6 +132,12 @@ const Home = () => {
         }
     )
     const nextAvailable = queryData?.pages?.map((data) => data.data.next)[0]
+
+    useEffect(() => {
+        if (inView && !isFetchingNextPage && nextAvailable) {
+            fetchNextPage()
+        }
+    }, [inView, isFetchingNextPage, nextAvailable, fetchNextPage])
 
     useEffect(() => {
         if (!queryData || !Array.isArray(queryData.pages)) return
@@ -278,7 +286,26 @@ const Home = () => {
                 ))}
             </ResultsGrid>
 
-            <LoadMore>
+            {/* <LoadMore>
+                {isFetchingNextPage ? (
+                    <Oval
+                        height='100'
+                        width='100'
+                        color='grey'
+                        ariaLabel='loading'
+                    />
+                ) : (
+                    nextAvailable && (
+                        <button
+                            onClick={() => fetchNextPage()}
+                            disabled={!nextAvailable}
+                        >
+                            Load More
+                        </button>
+                    )
+                )}
+            </LoadMore> */}
+            <LoadMore ref={ref}>
                 {isFetchingNextPage ? (
                     <Oval
                         height='100'
