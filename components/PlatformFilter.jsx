@@ -33,10 +33,6 @@ const StyledPlatformFilter = styled.div`
 const PlatformFilter = ({ onFilterChange }) => {
     const router = useRouter()
     const selectedPlatforms = router?.query.platforms?.split(',') || []
-    console.log(
-        '🚀 ~ file: PlatformFilter.jsx:36 ~ PlatformFilter ~ selectedPlatforms:',
-        selectedPlatforms
-    )
 
     const xboxVariantIds = [1, 186]
 

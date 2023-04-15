@@ -97,7 +97,7 @@ const Home = () => {
     const searchQuery = router?.query.s
 
     const resultsRef = useRef()
-    const { ref, inView } = useInView({ threshold: 0 })
+    const { ref, inView } = useInView({ threshold: 1 })
 
     const [ratingSorting, setRatingSorting] = useState('none')
     const [dateSorting, setDateSorting] = useState('none')
@@ -172,6 +172,8 @@ const Home = () => {
 
         setCombinedData(combinedData)
     }, [queryData, ratingSorting, dateSorting, platformFilters])
+
+    // const displayedGames = queryData ? queryData.pages.flat() : []
 
     if (status === 'loading')
         return (
@@ -286,25 +288,6 @@ const Home = () => {
                 ))}
             </ResultsGrid>
 
-            {/* <LoadMore>
-                {isFetchingNextPage ? (
-                    <Oval
-                        height='100'
-                        width='100'
-                        color='grey'
-                        ariaLabel='loading'
-                    />
-                ) : (
-                    nextAvailable && (
-                        <button
-                            onClick={() => fetchNextPage()}
-                            disabled={!nextAvailable}
-                        >
-                            Load More
-                        </button>
-                    )
-                )}
-            </LoadMore> */}
             <LoadMore ref={ref}>
                 {isFetchingNextPage ? (
                     <Oval
