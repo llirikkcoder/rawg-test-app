@@ -38,69 +38,7 @@ const PlatformFilter = ({ onFilterChange }) => {
         selectedPlatforms
     )
 
-    // const xboxVariantIds = [1, 186]
-
-    // const handlePlatformChange = (e, platformId) => {
-    //     e.preventDefault()
-
-    //     let newPlatforms = []
-
-    //     if (selectedPlatforms.includes(platformId)) {
-    //         newPlatforms = selectedPlatforms.filter((id) => id !== platformId)
-    //     } else {
-    //         newPlatforms = [...selectedPlatforms, platformId]
-    //     }
-
-    //     // Add all Xbox variant IDs to the query string
-    //     // if (xboxVariantIds.includes(platformId)) {
-    //     //     newPlatforms = [
-    //     //         ...newPlatforms,
-    //     //         ...xboxVariantIds.filter((id) => !newPlatforms.includes(id)),
-    //     //     ]
-    //     // }
-
-    //     router.push({
-    //         pathname: '/',
-    //         query: {
-    //             ...router.query,
-    //             platforms: newPlatforms.join(','),
-    //         },
-    //     })
-
-    //     onFilterChange(newPlatforms)
-    // }
-
-    // const handlePlatformChange = (e, platformId) => {
-    //     e.preventDefault()
-
-    //     let newPlatforms = []
-
-    //     if (selectedPlatforms.includes(platformId)) {
-    //         // Remove platformId from selectedPlatforms
-    //         newPlatforms = selectedPlatforms.filter((id) => id !== platformId)
-    //     } else {
-    //         // Add platformId to selectedPlatforms
-    //         newPlatforms = [...selectedPlatforms, platformId]
-    //     }
-
-    //     // Reset selectedPlatforms if no platforms are selected
-    //     if (newPlatforms.length === 0) {
-    //         router.push({
-    //             pathname: '/',
-    //         })
-    //     } else {
-    //         // Update the query string with the new platform selections
-    //         router.push({
-    //             pathname: '/',
-    //             query: {
-    //                 ...router.query,
-    //                 platforms: newPlatforms.join(','),
-    //             },
-    //         })
-    //     }
-
-    //     onFilterChange(newPlatforms)
-    // }
+    const xboxVariantIds = [1, 186]
 
     const handlePlatformChange = (e, platformId) => {
         e.preventDefault()
@@ -111,6 +49,14 @@ const PlatformFilter = ({ onFilterChange }) => {
             newPlatforms = [platformId]
         } else {
             newPlatforms = [platformId]
+        }
+
+        // Add all Xbox variant IDs to the query string
+        if (xboxVariantIds.includes(platformId)) {
+            newPlatforms = [
+                ...newPlatforms,
+                ...xboxVariantIds.filter((id) => !newPlatforms.includes(id)),
+            ]
         }
 
         router.push({
