@@ -33,15 +33,84 @@ const StyledPlatformFilter = styled.div`
 const PlatformFilter = ({ onFilterChange }) => {
     const router = useRouter()
     const selectedPlatforms = router?.query.platforms?.split(',') || []
+    console.log(
+        '🚀 ~ file: PlatformFilter.jsx:36 ~ PlatformFilter ~ selectedPlatforms:',
+        selectedPlatforms
+    )
+
+    // const xboxVariantIds = [1, 186]
+
+    // const handlePlatformChange = (e, platformId) => {
+    //     e.preventDefault()
+
+    //     let newPlatforms = []
+
+    //     if (selectedPlatforms.includes(platformId)) {
+    //         newPlatforms = selectedPlatforms.filter((id) => id !== platformId)
+    //     } else {
+    //         newPlatforms = [...selectedPlatforms, platformId]
+    //     }
+
+    //     // Add all Xbox variant IDs to the query string
+    //     // if (xboxVariantIds.includes(platformId)) {
+    //     //     newPlatforms = [
+    //     //         ...newPlatforms,
+    //     //         ...xboxVariantIds.filter((id) => !newPlatforms.includes(id)),
+    //     //     ]
+    //     // }
+
+    //     router.push({
+    //         pathname: '/',
+    //         query: {
+    //             ...router.query,
+    //             platforms: newPlatforms.join(','),
+    //         },
+    //     })
+
+    //     onFilterChange(newPlatforms)
+    // }
+
+    // const handlePlatformChange = (e, platformId) => {
+    //     e.preventDefault()
+
+    //     let newPlatforms = []
+
+    //     if (selectedPlatforms.includes(platformId)) {
+    //         // Remove platformId from selectedPlatforms
+    //         newPlatforms = selectedPlatforms.filter((id) => id !== platformId)
+    //     } else {
+    //         // Add platformId to selectedPlatforms
+    //         newPlatforms = [...selectedPlatforms, platformId]
+    //     }
+
+    //     // Reset selectedPlatforms if no platforms are selected
+    //     if (newPlatforms.length === 0) {
+    //         router.push({
+    //             pathname: '/',
+    //         })
+    //     } else {
+    //         // Update the query string with the new platform selections
+    //         router.push({
+    //             pathname: '/',
+    //             query: {
+    //                 ...router.query,
+    //                 platforms: newPlatforms.join(','),
+    //             },
+    //         })
+    //     }
+
+    //     onFilterChange(newPlatforms)
+    // }
+
     const handlePlatformChange = (e, platformId) => {
         e.preventDefault()
 
         let newPlatforms = []
 
         if (selectedPlatforms.includes(platformId)) {
-            newPlatforms = selectedPlatforms.filter((id) => id !== platformId)
+            newPlatforms = [platformId]
         } else {
-            newPlatforms = [...selectedPlatforms, platformId]
+            newPlatforms = [platformId]
         }
 
         router.push({
@@ -57,8 +126,8 @@ const PlatformFilter = ({ onFilterChange }) => {
 
     const platformOptions = [
         { id: 4, name: 'PC' },
-        { id: 1, name: 'PlayStation' },
-        { id: 2, name: 'Xbox' },
+        { id: 187, name: 'PlayStation' },
+        { id: 186, name: 'Xbox' },
         { id: 7, name: 'Nintendo' },
         { id: 3, name: 'iOS' },
         { id: 21, name: 'Android' },
