@@ -77,7 +77,7 @@ const SearchResults = () => {
 
     const fetchSearchResult = async (page = 1) => {
         const { data } = await axios.get(
-            `https://api.rawg.io/api/games?key=45e1c238c7b94f64838405bc02573d2a&page=${page}&search=${searchQuery}&search_precise=true`
+            `https://api.rawg.io/api/games?key=${process.env.RAWG_API_KEY}&page=${page}&search=${searchQuery}&search_precise=true`
         )
         return { data, nextPage: page + 1 }
     }

@@ -114,7 +114,7 @@ const Home = () => {
             .join('&')
         const searchParam = search ? `&search=${search}` : ''
         const { data } = await axios.get(
-            `https://api.rawg.io/api/games?key=45e1c238c7b94f64838405bc02573d2a&page=${page}&${platformParams}${searchParam}`
+            `https://api.rawg.io/api/games?key=${process.env.RAWG_API_KEY}&page=${page}&${platformParams}${searchParam}`
         )
         return { data, nextPage: page + 1 }
     }
