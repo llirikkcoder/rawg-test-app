@@ -3,9 +3,10 @@ import { useRouter } from 'next/router'
 
 const StyledPlatformFilter = styled.div`
     display: flex;
+    width: 100%;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
 
     label {
         margin-right: 10px;

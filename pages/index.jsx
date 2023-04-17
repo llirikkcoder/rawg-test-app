@@ -1,8 +1,7 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useInfiniteQuery } from 'react-query'
 import axios from 'axios'
-import { Oval } from 'react-loader-spinner'
 import styled from 'styled-components'
 import GameCard from '../components/GameCard'
 import PlatformFilter from '../components/PlatformFilter'
@@ -28,34 +27,6 @@ const ResultsGrid = styled.div`
         justify-content: center;
     }
 }
-`
-
-const LoadMore = styled.div`
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 3rem 0;
-
-    button {
-        border: none;
-        outline: none;
-        cursor: pointer;
-        background-color: #383838;
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
-        transition: all 0.2s ease-in-out;
-
-        &:disabled {
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        &:not(:disabled):active {
-            transform: scale(0.9);
-        }
-    }
 `
 
 const StyledSearchContainer = styled.div`
@@ -85,12 +56,29 @@ const StyledSearchContainer = styled.div`
     }
 `
 
-const LoadingContainer = styled.div`
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`
+const Sorting = ({ ratingSorting, dateSorting, onRatingSort, onDateSort }) => {
+    return (
+        <div>
+            <label>
+                Сортировка по рейтингу:
+                <select value={ratingSorting} onChange={onRatingSort}>
+                    <option value='none'>Нет</option>
+                    <option value='asc'>По возрастанию</option>
+                    <option value='desc'>По убыванию</option>
+                </select>
+            </label>
+
+            <label>
+                Сортировка по дате:
+                <select value={dateSorting} onChange={onDateSort}>
+                    <option value='none'>Нет</option>
+                    <option value='asc'>По возрастанию</option>
+                    <option value='desc'>По убыванию</option>
+                </select>
+            </label>
+        </div>
+    )
+}
 
 const Home = () => {
     const router = useRouter()
@@ -101,8 +89,11 @@ const Home = () => {
 
     const [ratingSorting, setRatingSorting] = useState('none')
     const [dateSorting, setDateSorting] = useState('none')
-    const [combinedData, setCombinedData] = useState([])
     const [platformFilters, setPlatformFilters] = useState([])
+    const [platformFilter, setPlatformFilter] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
+
+    const [page, setPage] = useState(1)
 
     const handlePlatformFilter = (selectedPlatforms) => {
         setPlatformFilters(selectedPlatforms)
@@ -120,193 +111,93 @@ const Home = () => {
     }
 
     const {
-        data: queryData,
-        fetchNextPage,
+        data: searchData,
+        isFetching,
         isFetchingNextPage,
-        status,
+        fetchNextPage,
+        hasNextPage,
     } = useInfiniteQuery(
-        ['games', searchQuery],
-        ({ pageParam = 1 }) => fetchSearchResult(pageParam),
+        ['games', searchQuery, ratingSorting, dateSorting, platformFilters],
+        ({ pageParam = 1 }) =>
+            fetchSearchResult(pageParam, platformFilters, searchQuery),
         {
-            getNextPageParam: (lastPage, pages) => lastPage.nextPage,
+            getNextPageParam: (lastPage, pages) =>
+                lastPage.nextPage <= 15 ? lastPage.nextPage : false,
         }
     )
-    const nextAvailable = queryData?.pages?.map((data) => data.data.next)[0]
 
-    useEffect(() => {
-        if (inView && !isFetchingNextPage && nextAvailable) {
+    const handleLoadMore = () => {
+        if (!isFetchingNextPage && hasNextPage) {
             fetchNextPage()
         }
-    }, [inView, isFetchingNextPage, nextAvailable, fetchNextPage])
+    }
+
+    const gamesData = searchData?.pages?.map((data) => data.data.results).flat()
+
+    const filteredData = useMemo(() => {
+        if (!gamesData || gamesData.length === 0) return []
+
+        let filtered = [...gamesData]
+
+        if (platformFilter) {
+            filtered = filtered.filter((game) =>
+                game.platforms.includes(platformFilter)
+            )
+        }
+
+        if (searchTerm) {
+            filtered = filtered.filter((game) =>
+                game.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        }
+
+        return filtered
+    }, [gamesData, platformFilter, searchTerm])
 
     useEffect(() => {
-        if (!queryData || !Array.isArray(queryData.pages)) return
-
-        let combinedData = queryData.pages
-            .map((data) => data.data.results)
-            .flat()
-
-        if (ratingSorting === 'asc') {
-            combinedData = combinedData.sort((a, b) => a.rating - b.rating)
-        } else if (ratingSorting === 'desc') {
-            combinedData = combinedData.sort((a, b) => b.rating - a.rating)
+        if (inView && !isFetching && hasNextPage) {
+            fetchNextPage()
         }
+    }, [inView, isFetching, fetchNextPage, hasNextPage])
 
-        if (dateSorting === 'asc') {
-            combinedData = combinedData.sort(
-                (a, b) => new Date(a.released) - new Date(b.released)
-            )
-        } else if (dateSorting === 'desc') {
-            combinedData = combinedData.sort(
-                (a, b) => new Date(b.released) - new Date(a.released)
-            )
-        }
+    const handleRatingSort = (event) => {
+        setRatingSorting(event.target.value)
+    }
 
-        if (platformFilters.length > 0) {
-            combinedData = combinedData.filter((game) =>
-                game.platforms.some((platform) =>
-                    platformFilters.includes(platform.platform.id)
-                )
-            )
-        }
-
-        setCombinedData(combinedData)
-    }, [queryData, ratingSorting, dateSorting, platformFilters])
-
-    // const displayedGames = queryData ? queryData.pages.flat() : []
-
-    if (status === 'loading')
-        return (
-            <LoadingContainer>
-                <Oval
-                    height={80}
-                    width={80}
-                    color='white'
-                    wrapperStyle={{}}
-                    wrapperClass=''
-                    visible={true}
-                    ariaLabel='oval-loading'
-                    secondaryColor='black'
-                    strokeWidth={2}
-                    strokeWidthSecondary={2}
-                />
-            </LoadingContainer>
-        )
+    const handleDateSort = (event) => {
+        setDateSorting(event.target.value)
+    }
 
     return (
         <StyledSearchResults>
             <StyledSearchContainer>
-                <div>Sort by:</div>
-                <button
-                    onClick={() => {
-                        setRatingSorting('none')
-                        setDateSorting('none')
-                    }}
-                    disabled={
-                        ratingSorting === 'none' && dateSorting === 'none'
-                    }
-                    style={{
-                        backgroundColor:
-                            ratingSorting === 'none' && dateSorting === 'none'
-                                ? 'gray'
-                                : 'transparent',
-                    }}
-                >
-                    None
-                </button>
-                <button
-                    onClick={() => {
-                        setRatingSorting('asc')
-                        setDateSorting('none')
-                    }}
-                    disabled={ratingSorting === 'asc' && dateSorting === 'none'}
-                    style={{
-                        backgroundColor:
-                            ratingSorting === 'asc' && dateSorting === 'none'
-                                ? 'gray'
-                                : 'transparent',
-                    }}
-                >
-                    Rating (Ascending)
-                </button>
-                <button
-                    onClick={() => {
-                        setRatingSorting('desc')
-                        setDateSorting('none')
-                    }}
-                    disabled={
-                        ratingSorting === 'desc' && dateSorting === 'none'
-                    }
-                    style={{
-                        backgroundColor:
-                            ratingSorting === 'desc' && dateSorting === 'none'
-                                ? 'gray'
-                                : 'transparent',
-                    }}
-                >
-                    Rating (Descending)
-                </button>
-                <button
-                    onClick={() => {
-                        setDateSorting('asc')
-                        setRatingSorting('none')
-                    }}
-                    disabled={dateSorting === 'asc' && ratingSorting === 'none'}
-                    style={{
-                        backgroundColor:
-                            dateSorting === 'asc' && ratingSorting === 'none'
-                                ? 'gray'
-                                : 'transparent',
-                    }}
-                >
-                    Release Date (Ascending)
-                </button>
-                <button
-                    onClick={() => {
-                        setDateSorting('desc')
-                        setRatingSorting('none')
-                    }}
-                    disabled={
-                        dateSorting === 'desc' && ratingSorting === 'none'
-                    }
-                    style={{
-                        backgroundColor:
-                            dateSorting === 'desc' && ratingSorting === 'none'
-                                ? 'gray'
-                                : 'transparent',
-                    }}
-                >
-                    Release Date (Descending)
-                </button>
-            </StyledSearchContainer>
+                <Sorting
+                    ratingSorting={ratingSorting}
+                    dateSorting={dateSorting}
+                    onRatingSort={handleRatingSort}
+                    onDateSort={handleDateSort}
+                />
 
-            <PlatformFilter onFilterChange={handlePlatformFilter} />
+                <PlatformFilter onFilterChange={handlePlatformFilter} />
+                <ResultsGrid ref={resultsRef}>
+                    {filteredData?.map((game) => (
+                        <GameCard key={game?.id} game={game} />
+                    ))}
+                </ResultsGrid>
 
-            <ResultsGrid ref={resultsRef}>
-                {combinedData?.map((game) => (
-                    <GameCard key={game?.id} game={game} />
-                ))}
-            </ResultsGrid>
-
-            <LoadMore ref={ref}>
-                {isFetchingNextPage ? (
-                    <Oval
-                        height='100'
-                        width='100'
-                        color='grey'
-                        ariaLabel='loading'
-                    />
-                ) : (
-                    nextAvailable && (
+                {hasNextPage && (
+                    <div ref={ref}>
                         <button
-                            onClick={() => fetchNextPage()}
-                            disabled={!nextAvailable}
+                            onClick={handleLoadMore}
+                            disabled={isFetchingNextPage}
                         >
-                            Load More
+                            {isFetchingNextPage
+                                ? 'Loading more...'
+                                : 'Load More'}
                         </button>
-                    )
+                    </div>
                 )}
-            </LoadMore>
+            </StyledSearchContainer>
         </StyledSearchResults>
     )
 }

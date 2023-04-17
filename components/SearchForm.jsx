@@ -44,7 +44,8 @@ const SearchForm = () => {
 
     const handleSearch = (e) => {
         e.preventDefault()
-        router.push({ pathname: 'search', query: { s: search } })
+        // router.push({ pathname: 'search', query: { s: search } })
+        router.replace({ pathname: '/', query: { s: search } })
         setSearch('')
     }
 
