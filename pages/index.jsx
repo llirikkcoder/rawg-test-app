@@ -4,7 +4,7 @@ import { useInfiniteQuery } from 'react-query'
 import axios from 'axios'
 import { Oval } from 'react-loader-spinner'
 import styled from 'styled-components'
-import SearchCard from '../components/SearchCard'
+import GameCard from '../components/GameCard'
 import PlatformFilter from '../components/PlatformFilter'
 import { useInView } from 'react-intersection-observer'
 
@@ -284,7 +284,7 @@ const Home = () => {
 
             <ResultsGrid ref={resultsRef}>
                 {combinedData?.map((game) => (
-                    <SearchCard key={game?.id} game={game} />
+                    <GameCard key={game?.id} game={game} />
                 ))}
             </ResultsGrid>
 

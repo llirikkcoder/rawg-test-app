@@ -9,7 +9,7 @@ import {
     Rating,
     NoImageWrapper,
     NoImage,
-} from './SearchCard.styles'
+} from './GameCard.styles'
 
 const TitleLimited = ({ children, limit }) => {
     const text = children.trim()
@@ -18,7 +18,7 @@ const TitleLimited = ({ children, limit }) => {
     return <Title>{limitedText}</Title>
 }
 
-const SearchCard = ({ game }) => {
+const GameCard = ({ game }) => {
     const router = useRouter()
 
     const gameDetail = (id) => {
@@ -54,4 +54,4 @@ const SearchCard = ({ game }) => {
     )
 }
 
-export default SearchCard
+export default GameCard

@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { useRouter } from 'next/router'
 import { useInfiniteQuery } from 'react-query'
 import axios from 'axios'
-import SearchCard from '../../components/SearchCard'
+import GameCard from '../../components/GameCard'
 import { Oval } from 'react-loader-spinner'
 import styled from 'styled-components'
 
@@ -111,7 +111,7 @@ const SearchResults = () => {
             <ResultsGrid ref={resultsRef}>
                 {data?.pages?.map((data) =>
                     data?.data?.results?.map((game) => (
-                        <SearchCard key={game?.id} game={game} />
+                        <GameCard key={game?.id} game={game} />
                     ))
                 )}
             </ResultsGrid>
