@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import GameCard from '../components/GameCard'
 import PlatformFilter from '../components/PlatformFilter'
 import { useInView } from 'react-intersection-observer'
+import Sorting from './../components/Sorting'
 
 const StyledSearchResults = styled.div`
     padding: 0 1rem;
@@ -56,29 +57,29 @@ const StyledSearchContainer = styled.div`
     }
 `
 
-const Sorting = ({ ratingSorting, dateSorting, onRatingSort, onDateSort }) => {
-    return (
-        <div>
-            <label>
-                Сортировка по рейтингу:
-                <select value={ratingSorting} onChange={onRatingSort}>
-                    <option value='none'>Нет</option>
-                    <option value='asc'>По возрастанию</option>
-                    <option value='desc'>По убыванию</option>
-                </select>
-            </label>
+// const Sorting = ({ ratingSorting, dateSorting, onRatingSort, onDateSort }) => {
+//     return (
+//         <div>
+//             <label>
+//                 Sort by rating:
+//                 <select value={ratingSorting} onChange={onRatingSort}>
+//                     <option value='none'>None</option>
+//                     <option value='asc'>Ascending</option>
+//                     <option value='desc'>Descending</option>
+//                 </select>
+//             </label>
 
-            <label>
-                Сортировка по дате:
-                <select value={dateSorting} onChange={onDateSort}>
-                    <option value='none'>Нет</option>
-                    <option value='asc'>По возрастанию</option>
-                    <option value='desc'>По убыванию</option>
-                </select>
-            </label>
-        </div>
-    )
-}
+//             <label>
+//                 Sort by date of release:
+//                 <select value={dateSorting} onChange={onDateSort}>
+//                     <option value='none'>None</option>
+//                     <option value='asc'>Ascending</option>
+//                     <option value='desc'>Descending</option>
+//                 </select>
+//             </label>
+//         </div>
+//     )
+// }
 
 const Home = () => {
     const router = useRouter()
